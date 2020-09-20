@@ -1,4 +1,4 @@
-# Java Ansible Vault JavaFX Application
+# JavaFX Ansible Vault Application
 
 This application allows you to handle Ansible encrypted vaults.
 
@@ -10,7 +10,7 @@ Paste an encrypted vault variable into the text area
 ![decrypted](site/images/encrypted_vault.png)
 Or press `Encrypt` on a clear text vault variable to encrypt it   
 ![encrypted_again](site/images/decrypterd_vault.png)
-
+    
 ## Notices and Limitations
 The library handles versions 1.1 and 1.2 format of the vaults. It will cry and crash and burn with any previous versions of the vaults.
 
