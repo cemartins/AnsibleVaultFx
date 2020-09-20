@@ -9,11 +9,11 @@ Here are a couple of examples of how you could use this library
 ### Easy peasy
 
 Paste an encrypted vault variable into the text area   
-![decrypted](site/images/decrypterd_vault.png)
+![encrypted](site/images/decrypterd_vault.png)
 ... And press `Decrypt`   
 ![decrypted](site/images/encrypted_vault.png)
 Or press `Encrypt` on a clear test vault variable   
-![decrypted](site/images/decrypterd_vault.png)
+![encrypted_again](site/images/decrypterd_vault.png)
 
 JavaAnsibleVault uses https://github.com/EsotericSoftware/yamlbeans for serializing/deserializing
 objects to and from Ansible Vaults. This gives you very convenient ways of handling the vaults from
