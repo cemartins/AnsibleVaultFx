@@ -11,8 +11,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>net.wedjaa.ansible.vaultEncryptedParser</groupId>
-    <artifactId>vaultEncryptedParser-utilities</artifactId>
+    <groupId>net.martins.ansible</groupId>
+    <artifactId>ansible-vault-fx</artifactId>
     <version>1.2.0</version>
 
     <properties>
