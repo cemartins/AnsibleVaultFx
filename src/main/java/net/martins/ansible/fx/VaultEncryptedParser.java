@@ -64,9 +64,4 @@ public class VaultEncryptedParser {
         variableBuilder.append(new String(clearText, StandardCharsets.UTF_8));
         return variableBuilder.toString();
     }
-
-    public String writeToVault(String clearText, String password) throws IOException {
-        byte [] encryptedText = VaultHandler.encrypt(clearText.getBytes(), password);
-        return new String(encryptedText);
-    }
 }

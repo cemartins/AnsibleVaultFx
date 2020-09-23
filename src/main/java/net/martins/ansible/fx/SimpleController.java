@@ -3,11 +3,11 @@ package net.martins.ansible.fx;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 
 @Component
 public class SimpleController {
@@ -98,5 +98,8 @@ public class SimpleController {
         this.alert = new Alert(Alert.AlertType.NONE);
         this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());
         this.decryptButton.setOnAction(actionEvent -> this.decryptTextArea());
+        final Font font = Font.font("monospace");
+        this.textArea.setFont(font);
+        this.passwordTextField.setFont(font);
     }
 }
