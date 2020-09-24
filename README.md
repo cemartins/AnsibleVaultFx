@@ -5,15 +5,15 @@ This application allows you to handle Ansible encrypted vaults.
 ### Easy peasy
 
 Paste an encrypted vault variable into the text area   
-![encrypted](site/images/decrypterd_vault.png)
+![encrypted](site/images/decrypted_vault.png)
 ... And press `Decrypt`   
 ![decrypted](site/images/encrypted_vault.png)
 Or press `Encrypt` on a clear text vault variable to encrypt it   
-![encrypted_again](site/images/decrypterd_vault.png)
+![encrypted_again](site/images/decrypted_vault.png)
 
 ### Building and running
 
-Maven build (requires Java 8) `mvn clean install`
+Maven build (requires Java 11) `mvn clean install`
 
 To start the application, just double-click on the generated `ansible-vault-fx-<version>.jar` file.
     
