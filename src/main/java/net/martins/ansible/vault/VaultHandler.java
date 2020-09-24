@@ -33,7 +33,7 @@ public class VaultHandler {
 
         byte[] vaultData = cypherInstance.get().encrypt(cleartext, password);
         String vaultDataString = new String(vaultData);
-        String vaultPackage = cypherInstance.get().infoLine() + "\n" + vaultDataString;
+        String vaultPackage = cypherInstance.get().infoLine() + LINE_BREAK + vaultDataString;
         return vaultPackage.getBytes();
     }
 

@@ -13,6 +13,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class CypherAES256 implements Cypher {
@@ -27,6 +28,7 @@ public class CypherAES256 implements Cypher {
     private static final String KEYGEN_ALGO = "HmacSHA256";
     private static final String CYPHER_KEY_ALGO = "AES";
     private static final String CYPHER_ALGO = "AES/CTR/PKCS7Padding";
+    private static final String CYPHER_ALGO_2nd_BEST = "AES/CTR/PKCS5Padding";
     private static final int KEYLEN = 32;
     private static final int IVLEN = 16;
     private static final int ITERATIONS = 10000;
@@ -69,7 +71,15 @@ public class CypherAES256 implements Cypher {
 
         SecretKeySpec keySpec = new SecretKeySpec(key, CYPHER_KEY_ALGO);
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
-        Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+        Cipher cipher;
+        try {
+            cipher = Cipher.getInstance(CYPHER_ALGO);
+            logger.info("Using PKCS 7 Padding for decrypting");
+        }
+        catch(NoSuchAlgorithmException e) {
+            cipher = Cipher.getInstance(CYPHER_ALGO_2nd_BEST);
+            logger.info("Using PKCS 5 Padding for decrypting");
+        }
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
         return cipher.doFinal(cypher);
     }
@@ -78,6 +88,7 @@ public class CypherAES256 implements Cypher {
         SecretKeySpec keySpec = new SecretKeySpec(key, CYPHER_KEY_ALGO);
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
         Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+        logger.info("Using PKCS 7 Padding for encrypting");
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
         return cipher.doFinal(cleartext);
     }
