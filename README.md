@@ -18,9 +18,5 @@ Maven build (requires Java 8) `mvn clean install`
 To start the application, just double-click on the generated `ansible-vault-fx-<version>.jar` file.
     
 ### Notices and Limitations
-Requires Java 8 or higher
+Requires Java 11 or higher
 The application handles versions 1.1 and 1.2 format of the vaults. It will cry and crash and burn with any previous versions of the vaults.
-
-_**Ansible uses 256 bits keys to handle encryption and decryption of the vaults, this means that
-in order to handle these vaults you will need to install the unrestricted policy files from Oracle.
-You have been warned.**_

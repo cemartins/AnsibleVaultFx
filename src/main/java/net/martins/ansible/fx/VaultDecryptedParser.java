@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class VaultDecryptedParser {
 
     private static final String COLLON = ":";
+    private static final String VAULT_INDENT = "    ";
     private String variableName;
     private String variableValue;
 
@@ -53,7 +54,10 @@ public class VaultDecryptedParser {
 
         final byte[] clearText = variableValue.getBytes(StandardCharsets.UTF_8);
         final byte [] encryptedText = VaultHandler.encrypt(clearText, password);
-        variableBuilder.append(new String(encryptedText, StandardCharsets.UTF_8));
+        final String vaultText = Arrays.stream(new String(encryptedText, StandardCharsets.UTF_8).split(Util.LINE_BREAK))
+                .map(l -> VAULT_INDENT.concat(l).concat(Util.LINE_BREAK))
+                .collect(Collectors.joining());
+        variableBuilder.append(vaultText);
         variableBuilder.append(Util.LINE_BREAK);
         return variableBuilder.toString();
     }
