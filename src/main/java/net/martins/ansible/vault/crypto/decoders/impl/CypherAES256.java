@@ -11,7 +11,8 @@ import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 public class CypherAES256 implements Cypher {
@@ -48,56 +49,44 @@ public class CypherAES256 implements Cypher {
         return canCrypt;
     }
 
-    public byte[] calculateHMAC(byte[] key, byte[] data) throws IOException {
+    public byte[] calculateHMAC(byte[] key, byte[] data) throws GeneralSecurityException {
         byte[] computedMac;
 
-        try {
-            SecretKeySpec hmacKey = new SecretKeySpec(key, KEYGEN_ALGO);
-            Mac mac = Mac.getInstance(KEYGEN_ALGO);
-            mac.init(hmacKey);
-            computedMac = mac.doFinal(data);
-        } catch (Exception ex) {
-            throw new IOException("Error decrypting HMAC hash: " + ex.getMessage());
-        }
+        SecretKeySpec hmacKey = new SecretKeySpec(key, KEYGEN_ALGO);
+        Mac mac = Mac.getInstance(KEYGEN_ALGO);
+        mac.init(hmacKey);
+        computedMac = mac.doFinal(data);
 
         return computedMac;
     }
 
-    public boolean verifyHMAC(byte[] hmac, byte[] key, byte[] data) throws IOException {
+    public boolean verifyHMAC(byte[] hmac, byte[] key, byte[] data) throws GeneralSecurityException {
         byte[] calculated = calculateHMAC(key, data);
         return Arrays.equals(hmac, calculated);
     }
 
-    public byte[] decryptAES(byte[] cypher, byte[] key, byte[] iv) throws IOException {
+    public byte[] decryptAES(byte[] cypher, byte[] key, byte[] iv) throws GeneralSecurityException {
 
         SecretKeySpec keySpec = new SecretKeySpec(key, CYPHER_KEY_ALGO);
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
-        try {
-            Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
-            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
-            return cipher.doFinal(cypher);
-        } catch (Exception ex) {
-            throw new IOException("Failed to decrypt data: " + ex.getMessage());
-        }
+        Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+        return cipher.doFinal(cypher);
     }
 
-    public byte[] encryptAES(byte[] cleartext, byte[] key, byte[] iv) throws IOException {
+    public byte[] encryptAES(byte[] cleartext, byte[] key, byte[] iv) throws GeneralSecurityException {
         SecretKeySpec keySpec = new SecretKeySpec(key, CYPHER_KEY_ALGO);
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
-        try {
-            Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
-            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
-            return cipher.doFinal(cleartext);
-        } catch (Exception ex) {
-            throw new IOException("Failed to encrypt data: " + ex.getMessage());
-        }
+        Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+        return cipher.doFinal(cleartext);
     }
 
-    public byte[] decrypt(byte[] data, String password) throws IOException {
+    public byte[] decrypt(byte[] data, String password) throws GeneralSecurityException {
         byte[] decrypted;
 
         if (!hasValidAESProvider()) {
-            throw new IOException("Missing valid AES256 provider - install unrestricted policy profiles.");
+            throw new GeneralSecurityException("Missing valid AES256 provider - install unrestricted policy profiles.");
         }
 
         VaultContent vaultContent = new VaultContent(data);
@@ -122,9 +111,13 @@ public class CypherAES256 implements Cypher {
         if (verifyHMAC(hmac, hmacKey, cypher)) {
             logger.debug("Signature matches - decrypting");
             decrypted = decryptAES(cypher, cypherKey, iv);
-            logger.debug("Decoded:\n{}", new String(decrypted, CHAR_ENCODING));
+            try {
+                logger.debug("Decoded:\n{}", new String(decrypted, CHAR_ENCODING));
+            } catch (UnsupportedEncodingException e) {
+                throw new GeneralSecurityException("Cannot convert decrypted contents to " + CHAR_ENCODING, e);
+            }
         } else {
-            throw new IOException("HMAC Digest doesn't match - possibly it's the wrong password.");
+            throw new GeneralSecurityException("HMAC Digest doesn't match - possibly it's the wrong password.");
         }
 
         return decrypted;
@@ -134,7 +127,7 @@ public class CypherAES256 implements Cypher {
         return VaultInfo.vaultInfoForCypher(CYPHER_ID);
     }
 
-    public byte[] encrypt(byte[] data, String password) throws IOException {
+    public byte[] encrypt(byte[] data, String password) throws GeneralSecurityException {
         EncryptionKeychain keys = new EncryptionKeychain(SALT_LENGTH, password, KEYLEN, IVLEN, ITERATIONS, KEYGEN_ALGO);
         keys.createKeys();
         byte[] cypherKey = keys.getEncryptionKey();

@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @Component
 public class SimpleController {
@@ -40,7 +40,7 @@ public class SimpleController {
         try {
             vaultEncryptedParser.parseEncryptedText(getTextAreaContent("Decrypt"));
             textArea.setText(vaultEncryptedParser.getDecryptedVault(getPassword()));
-        } catch (IOException e) {
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Decrypt");
@@ -54,7 +54,7 @@ public class SimpleController {
         try {
             vaultDecryptedParser.parseEncryptedText(getTextAreaContent("Encrypt"));
             textArea.setText(vaultDecryptedParser.getEncryptedVault(getPassword()));
-        } catch (IOException e) {
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Encrypt");

@@ -3,7 +3,7 @@ package net.martins.ansible.vault.crypto.decoders.impl;
 import de.rtner.security.auth.spi.PBKDF2Engine;
 import de.rtner.security.auth.spi.PBKDF2Parameters;
 
-import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -40,19 +40,14 @@ public class EncryptionKeychain {
         this.algo = algo;
     }
 
-    private byte[] createRawKey() throws IOException {
-        try {
+    private byte[] createRawKey() throws GeneralSecurityException {
             PBKDF2Parameters params = new PBKDF2Parameters(algo, CHAR_ENCODING, salt, iterations);
             int keyLength = ivlen + 2 * keylen;
             PBKDF2Engine pbkdf2Engine = new PBKDF2Engine(params);
             return pbkdf2Engine.deriveKey(password, keyLength);
-        } catch (Exception ex) {
-            throw new IOException("Crypto failure: " + ex.getMessage());
-        }
-
     }
 
-    public void createKeys() throws IOException {
+    public void createKeys() throws GeneralSecurityException {
         final byte[] rawKeys = createRawKey();
         this.encryptionKey = getEncryptionKey(rawKeys);
         this.hmacKey = getHMACKey(rawKeys);

@@ -3,7 +3,8 @@ package net.martins.ansible.vault.crypto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 
 public class VaultContent {
 
@@ -27,11 +28,15 @@ public class VaultContent {
         return data;
     }
 
-    public VaultContent(byte[] encryptedVault) throws IOException {
+    public VaultContent(byte[] encryptedVault) throws GeneralSecurityException {
         byte[][] vaultContents = splitData(encryptedVault);
-        salt = Util.unhex(new String(vaultContents[0], CHAR_ENCODING));
-        hmac = Util.unhex(new String(vaultContents[1], CHAR_ENCODING));
-        data = Util.unhex(new String(vaultContents[2], CHAR_ENCODING));
+        try {
+            salt = Util.unhex(new String(vaultContents[0], CHAR_ENCODING));
+            hmac = Util.unhex(new String(vaultContents[1], CHAR_ENCODING));
+            data = Util.unhex(new String(vaultContents[2], CHAR_ENCODING));
+        } catch (UnsupportedEncodingException e) {
+            throw new GeneralSecurityException("Cannot convert vault contents to " + CHAR_ENCODING, e);
+        }
     }
 
     public VaultContent(byte[] salt, byte[] hmac, byte[] data) {
@@ -60,7 +65,7 @@ public class VaultContent {
         return result;
     }
 
-    private int[] getDataLengths(byte[] encodedData) throws IOException {
+    private int[] getDataLengths(byte[] encodedData) throws GeneralSecurityException {
         int[] result = new int[3];
 
         int idx = 0;
@@ -72,7 +77,7 @@ public class VaultContent {
         // Skip the newline
         idx++;
         if (idx == encodedData.length) {
-            throw new IOException("Malformed data - salt incomplete");
+            throw new GeneralSecurityException("Malformed data - salt incomplete");
         }
         result[0] = saltLen;
 
@@ -84,7 +89,7 @@ public class VaultContent {
         // Skip the newline
         idx++;
         if (idx == encodedData.length) {
-            throw new IOException("Malformed data - hmac incomplete");
+            throw new GeneralSecurityException("Malformed data - hmac incomplete");
         }
         result[1] = hmacLen;
         int dataLen = 0;
@@ -97,7 +102,7 @@ public class VaultContent {
         return result;
     }
 
-    private byte[][] splitData(byte[] encodedData) throws IOException {
+    private byte[][] splitData(byte[] encodedData) throws GeneralSecurityException {
         int[] partsLength = getDataLengths(encodedData);
 
         byte[][] result = new byte[3][];
@@ -111,7 +116,7 @@ public class VaultContent {
         // Skip the newline
         idx++;
         if (idx == encodedData.length) {
-            throw new IOException("Malformed data - salt incomplete");
+            throw new GeneralSecurityException("Malformed data - salt incomplete");
         }
         int macIdx = 0;
         result[1] = new byte[partsLength[1]];
@@ -121,7 +126,7 @@ public class VaultContent {
         // Skip the newline
         idx++;
         if (idx == encodedData.length) {
-            throw new IOException("Malformed data - hmac incomplete");
+            throw new GeneralSecurityException("Malformed data - hmac incomplete");
         }
         int dataIdx = 0;
         result[2] = new byte[partsLength[2]];

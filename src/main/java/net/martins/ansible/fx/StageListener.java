@@ -19,12 +19,18 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
     private final String applicationTitle;
     private final Resource fxml;
     private final ApplicationContext ac;
+    private final Integer width;
+    private final Integer height;
 
     public StageListener(@Value("${spring.application.ui.title}") String applicationTitle,
-                         @Value("classpath:/ui.fxml") Resource fxml, ApplicationContext ac) {
+                         @Value("classpath:/ui.fxml") Resource fxml, ApplicationContext ac,
+                         @Value("${spring.application.ui.window.width}") Integer width,
+                         @Value("${spring.application.ui.window.height}") Integer height) {
         this.applicationTitle = applicationTitle;
         this.fxml = fxml;
         this.ac = ac;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -32,11 +38,11 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
 
         try {
             final Stage window = stageReadyEvent.getStage();
-            URL url = this.fxml.getURL();
-            FXMLLoader fxmlLoader = new FXMLLoader( url );
+            final URL url = this.fxml.getURL();
+            final FXMLLoader fxmlLoader = new FXMLLoader( url );
             fxmlLoader.setControllerFactory(ac::getBean);
-            Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root, 800, 500);
+            final Parent root = fxmlLoader.load();
+            final Scene scene = new Scene(root, this.width, this.height);
             window.setScene(scene);
             window.setTitle(this.applicationTitle);
             window.show();

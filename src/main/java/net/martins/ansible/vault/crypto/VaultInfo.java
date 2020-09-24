@@ -4,7 +4,7 @@ import net.martins.ansible.vault.crypto.decoders.Cypher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 public class VaultInfo {
@@ -26,13 +26,13 @@ public class VaultInfo {
         return MAGIC_PART_DATA + ";" + VERSION_PART_DATA + ";" + vaultCypher;
     }
 
-    public VaultInfo(final String infoLine) throws IOException {
+    public VaultInfo(final String infoLine) throws GeneralSecurityException {
         logger.debug("Ansible Vault info: {}", infoLine);
 
         final String[] infoParts = infoLine.split(INFO_SEPARATOR);
 
         if (infoParts.length != INFO_ELEMENTS || !MAGIC_PART_DATA.equals(infoParts[MAGIC_PART_INDEX])) {
-            throw new IOException("File is not an Ansible Encrypted Vault");
+            throw new GeneralSecurityException("File is not an Ansible Encrypted Vault");
         }
 
         vaultVersion = infoParts[VERSION_PART_INDEX];
@@ -40,7 +40,7 @@ public class VaultInfo {
         final String vaultCypherName = infoParts[CYPHER_PART_INDEX];
         final Optional<Cypher> optionalCypher = CypherFactory.getCypher(vaultCypherName);
         if (!optionalCypher.isPresent()) {
-            throw new IOException("Unsupported vault cypher");
+            throw new GeneralSecurityException("Unsupported vault cypher");
         }
         this.cypher = optionalCypher.get();
     }

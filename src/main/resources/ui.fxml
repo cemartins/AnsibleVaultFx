@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.martins.ansible.fx.SimpleController">
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.martins.ansible.fx.SimpleController">
    <children>
       <TextArea fx:id="textArea" prefHeight="400.0" prefWidth="600.0" />
       <HBox prefHeight="40.0" prefWidth="400.0" alignment="BOTTOM_CENTER">

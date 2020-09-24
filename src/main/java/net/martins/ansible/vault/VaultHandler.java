@@ -7,7 +7,7 @@ import net.martins.ansible.vault.crypto.decoders.Cypher;
 import net.martins.ansible.vault.crypto.decoders.impl.CypherAES256;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.Security;
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,14 +21,14 @@ public class VaultHandler {
     private static final String DEFAULT_CYPHER = CypherAES256.CYPHER_ID;
     private static final String LINE_BREAK = "\n";
 
-    public static byte[] encrypt(byte[] cleartext, String password) throws IOException {
+    public static byte[] encrypt(byte[] cleartext, String password) throws GeneralSecurityException {
         return encrypt(cleartext, password, DEFAULT_CYPHER);
     }
 
-    public static byte[] encrypt(byte[] cleartext, String password, String cypher) throws IOException {
+    public static byte[] encrypt(byte[] cleartext, String password, String cypher) throws GeneralSecurityException {
         Optional<Cypher> cypherInstance = CypherFactory.getCypher(cypher);
         if (!cypherInstance.isPresent()) {
-            throw new IOException("Unsupported vault cypher");
+            throw new GeneralSecurityException("Unsupported vault cypher");
         }
 
         byte[] vaultData = cypherInstance.get().encrypt(cleartext, password);
@@ -37,7 +37,7 @@ public class VaultHandler {
         return vaultPackage.getBytes();
     }
 
-    public static byte[] decrypt(String encrypted, String password) throws IOException {
+    public static byte[] decrypt(String encrypted, String password) throws GeneralSecurityException {
         final int firstLineBreakIndex = encrypted.indexOf(LINE_BREAK);
 
         final String infoLinePart = encrypted.substring(0, firstLineBreakIndex);

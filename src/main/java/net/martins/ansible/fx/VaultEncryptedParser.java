@@ -4,8 +4,8 @@ import net.martins.ansible.vault.crypto.Util;
 import net.martins.ansible.vault.crypto.VaultInfo;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class VaultEncryptedParser {
      * stores the fields that is finds
      * @param textAreaContent
      */
-    public void parseEncryptedText(String textAreaContent) throws IOException {
+    public void parseEncryptedText(String textAreaContent) throws GeneralSecurityException {
 
         final List<String> lines = Arrays.stream(textAreaContent.split(Util.LINE_BREAK))
                 .filter(l -> StringUtils.hasText(l))
@@ -47,7 +47,7 @@ public class VaultEncryptedParser {
         encryptedData = Util.unhex(vaultText);
     }
 
-    public String getDecryptedVault(String password) throws IOException {
+    public String getDecryptedVault(String password) throws GeneralSecurityException {
         StringBuilder variableBuilder = new StringBuilder();
 
         if(variableName != null) {
