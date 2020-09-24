@@ -1,16 +1,10 @@
 package net.martins.ansible.fx;
 
-import lombok.Data;
-import net.wedjaa.ansible.vault.crypto.VaultHandler;
-import net.wedjaa.ansible.vault.crypto.data.Util;
-import net.wedjaa.ansible.vault.crypto.data.VaultInfo;
+import net.martins.ansible.vault.crypto.Util;
+import net.martins.ansible.vault.crypto.VaultInfo;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.nio.CharBuffer;
-import java.nio.charset.CharacterCodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +27,7 @@ public class VaultEncryptedParser {
      * stores the fields that is finds
      * @param textAreaContent
      */
-    public void parseEncryptedText(String textAreaContent) throws CharacterCodingException {
+    public void parseEncryptedText(String textAreaContent) throws IOException {
 
         final List<String> lines = Arrays.stream(textAreaContent.split(Util.LINE_BREAK))
                 .filter(l -> StringUtils.hasText(l))

@@ -1,7 +1,7 @@
 package net.martins.ansible.fx;
 
-import net.wedjaa.ansible.vault.crypto.VaultHandler;
-import net.wedjaa.ansible.vault.crypto.data.Util;
+import net.martins.ansible.vault.VaultHandler;
+import net.martins.ansible.vault.crypto.Util;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
