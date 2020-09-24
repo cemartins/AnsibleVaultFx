@@ -1,15 +1,16 @@
 # JavaFX Ansible Vault Application
 
-This application allows you to handle Ansible encrypted vaults.
+Handle Ansible Vaults with ease.   
+Secrets encrypted by `ansible-vault` can be decrypted here and secrets encrypted here can be decrypted by `ansible-vault`.
 
 ### Easy peasy
 
 Paste an encrypted vault variable into the text area   
-![encrypted](site/images/decrypted_vault.png)
-... And press `Decrypt`   
 ![decrypted](site/images/encrypted_vault.png)
+... And press `Decrypt`   
+![encrypted](site/images/decrypted_vault.png)
 Or press `Encrypt` on a clear text vault variable to encrypt it   
-![encrypted_again](site/images/decrypted_vault.png)
+![decrypted](site/images/encrypted_vault.png)
 
 ### Building and running
 
