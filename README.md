@@ -16,7 +16,7 @@ Or press `Encrypt` on a clear text vault variable to encrypt it
 
 Maven build (requires Java 11) `mvn clean install`
 
-To start the application, just double-click on the generated `ansible-vault-fx-<version>.jar` file.
+To start the application execute `java -jar ansible-vault-fx-<version>.jar` on the command line.
     
 ### Notices and Limitations
 Requires Java 11 or higher
