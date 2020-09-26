@@ -29,7 +29,7 @@ jobs:
       - name: Perform release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode release:perform
+        run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform
       - name: Stage release
         run: mkdir staging && cp target/ansible-vault-fx*.jar staging
       - name: Publish release
