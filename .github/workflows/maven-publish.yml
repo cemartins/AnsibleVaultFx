@@ -33,8 +33,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode release:perform
-      - name: Publish release
+      - name: Stage release
         run: mkdir staging && cp target/ansible-vault-fx*.jar staging
+      - name: Publish release
         uses: actions/upload-artifact@v1
         with:
           name: Package
