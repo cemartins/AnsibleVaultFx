@@ -96,10 +96,14 @@ public class SimpleController {
     @FXML
     public void initialize() {
         this.alert = new Alert(Alert.AlertType.NONE);
-        this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());
-        this.decryptButton.setOnAction(actionEvent -> this.decryptTextArea());
-        final Font font = Font.font("monospace");
+        final Font font = Font.font("Monospaced");
         this.textArea.setFont(font);
         this.passwordTextField.setFont(font);
+        final Font controlsFont = Font.font("SansSerif");
+        this.label.setFont(controlsFont);
+        this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());
+        this.encryptButton.setFont(controlsFont);
+        this.decryptButton.setOnAction(actionEvent -> this.decryptTextArea());
+        this.decryptButton.setFont(controlsFont);
     }
 }

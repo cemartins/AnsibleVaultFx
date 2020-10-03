@@ -62,14 +62,6 @@
             <version>${javafx.version}</version>
         </dependency>
 
-        <!--
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.30</version>
-        </dependency>
-        -->
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -127,7 +119,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -136,9 +127,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
@@ -164,11 +161,12 @@
                                 <CFBundleIconFile>src/bundle/mac/avfx.icns</CFBundleIconFile>
                                 <CFBundleDisplayName>AnsibleVaultFX</CFBundleDisplayName>
                                 <CFBundleDevelopmentRegion>English</CFBundleDevelopmentRegion>
-                                <CFBundleURLTypes>
-                                    <string>msa</string>
-                                </CFBundleURLTypes>
                                 <JVMMainClassName>net.martins.ansible.fx.BootifulAnsibleVaultFxApplication</JVMMainClassName>
                                 <JVMVersion>11+</JVMVersion>
+                                <JVMOptions>
+                                    <string>-Dapple.laf.useScreenMenuBar=true</string>
+                                    <string>-Xdock:name=${project.name}</string>
+                                </JVMOptions>
                             </plist>
                             <dmg>
                                 <generate>true</generate>
