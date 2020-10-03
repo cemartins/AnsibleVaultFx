@@ -1,10 +1,12 @@
-name: Release
+name: Publish_Linux
 
-on: [workflow_dispatch]
+on:
+  release:
+    types: [published]
 
 jobs:
 
-  release:
+  publish_linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,13 +22,14 @@ jobs:
           git config --global committer.name "GitHub"
           git config --global author.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global author.name "${GITHUB_ACTOR}"
-      - name: Checkout master branch
-        run: git checkout master
-      - name: Prepare release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode release:prepare -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: Perform release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform
+      - name: Checkout release
+        run: git checkout ${GITHUB_REF}
+      - name: Build release
+        run: mvn -B -DskipTests package --file pom.xml
+      - name: Stage release
+        run: mkdir staging && cp target/ansible-vault-fx*.jar staging
+      - name: Publish release
+        uses: actions/upload-artifact@v1
+        with:
+          name: Package
+          path: staging
