@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: release-properties
-          path: relese.properties
+          path: /relese.properties
 
   publish_macos:
     runs-on: macos-latest
@@ -53,6 +53,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
+          path: /relese.properties
       - name: Perform release for MacOs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -86,6 +87,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
+          path: /relese.properties
       - name: Perform release for Linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -119,6 +121,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
+          path: /relese.properties
       - name: Perform release for Windows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
