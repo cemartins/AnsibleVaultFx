@@ -27,10 +27,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode release:prepare -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Upload relese properties
-          uses: actions/upload-artifact@v1
-          with:
-            name: release-properties
-            path: relese.properties
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-properties
+          path: relese.properties
 
   publish_macos:
     runs-on: macos-latest
@@ -50,9 +50,9 @@ jobs:
           git config --global author.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global author.name "${GITHUB_ACTOR}"
       - name: Download release properties
-          uses: actions/download-artifact@v2
-          with:
-            name: release-properties
+        uses: actions/download-artifact@v2
+        with:
+          name: release-properties
       - name: Perform release for MacOs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -83,9 +83,9 @@ jobs:
           git config --global author.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global author.name "${GITHUB_ACTOR}"
       - name: Download release properties
-          uses: actions/download-artifact@v2
-          with:
-            name: release-properties
+        uses: actions/download-artifact@v2
+        with:
+          name: release-properties
       - name: Perform release for Linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -116,9 +116,9 @@ jobs:
           git config --global author.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global author.name "${GITHUB_ACTOR}"
       - name: Download release properties
-          uses: actions/download-artifact@v2
-          with:
-            name: release-properties
+        uses: actions/download-artifact@v2
+        with:
+          name: release-properties
       - name: Perform release for Windows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
