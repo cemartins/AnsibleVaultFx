@@ -1,8 +1,8 @@
-name: Publish_Mac
+name: Publish
 
 on:
-  release:
-    types: [published]
+  create:
+    ref_type: [ tag ]
 
 jobs:
 
@@ -51,7 +51,7 @@ jobs:
       - name: Build release
         run: mvn -B -DskipTests package --file pom.xml
       - name: Stage release
-        run: mkdir staging && cp target/ansible-vault-fx*.jar staging
+        run: mkdir staging && cp target/AnsibleVaultFX*.jar staging
       - name: Publish release
         uses: actions/upload-artifact@v1
         with:
@@ -77,7 +77,7 @@ jobs:
       - name: Build release
         run: mvn -B -DskipTests package --file pom.xml
       - name: Stage release
-        run: mkdir staging && cp target/ansible-vault-fx*.jar staging
+        run: mkdir staging && cp target/AnsibleVaultFX*.jar staging
       - name: Publish release
         uses: actions/upload-artifact@v1
         with:
