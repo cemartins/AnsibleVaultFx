@@ -197,6 +197,7 @@
                 </os>
             </activation>
             <build>
+                <finalName>${project.name}-linux-${project.version}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
@@ -223,6 +224,7 @@
                 </os>
             </activation>
             <build>
+                <finalName>${project.name}-win-${project.version}</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
