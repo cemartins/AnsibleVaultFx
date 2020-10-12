@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: release-properties
-          path: ${GITHUB_WORKSPACE}/release.properties
+          path: /home/runner/work/AnsibleVaultFx/AnsibleVaultFx/release.properties
 
   publish_macos:
     runs-on: macos-latest
