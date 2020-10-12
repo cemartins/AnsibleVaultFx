@@ -59,6 +59,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
+      - name: List binaries
+        run: ls -ltr ${GITHUB_WORKSPACE}/target
       - name: Stage release
         run: mkdir staging && cp target/AnsibleVaultFX*.dmg staging
       - name: Publish release
@@ -94,6 +96,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
+      - name: List binaries
+        run: ls -ltr ${GITHUB_WORKSPACE}/target
       - name: Stage release
         run: mkdir staging && cp target/AnsibleVaultFX*.jar staging
       - name: Publish release
@@ -121,6 +125,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
+      - name: List binaries
+        run: dir %GITHUB_WORKSPACE%\target
       - name: Stage release
         run: mkdir staging && cp target/AnsibleVaultFX*.jar staging
       - name: Publish release
