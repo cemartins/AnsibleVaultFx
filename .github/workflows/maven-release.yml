@@ -53,7 +53,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
-          path: relese.properties
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print
       - name: Perform release for MacOs
@@ -89,7 +88,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
-          path: relese.properties
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print
       - name : Perform release for Linux
@@ -119,7 +117,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
-          path: relese.properties
       - name: Perform release for Windows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
