@@ -23,7 +23,7 @@
     </properties>
 
     <scm>
-        <developerConnection>scm:git:https://github.com/cemartins/JavaAnsibleVault.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/cemartins/AnsibleVaultFx.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
 
@@ -31,7 +31,7 @@
         <repository>
             <id>github</id>
             <name>GitHub</name>
-            <url>https://maven.pkg.github.com/cemartins/JavaAnsibleVault</url>
+            <url>https://maven.pkg.github.com/cemartins/AnsibleVaultFx</url>
         </repository>
     </distributionManagement>
 
