@@ -60,9 +60,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: List binaries
-        run: ls -ltr ${GITHUB_WORKSPACE}/checkout/target
+        run: ls -ltr ${GITHUB_WORKSPACE}/checkout
       - name: Stage release
-        run: mkdir staging && cp checkout/target/AnsibleVaultFX*.dmg staging
+        run: mkdir staging && cp checkout/AnsibleVaultFx/target/AnsibleVaultFX*.dmg staging
       - name: Publish release
         uses: actions/upload-artifact@v1
         with:
@@ -97,9 +97,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: List binaries
-        run: ls -ltr ${GITHUB_WORKSPACE}/checkout/target
+        run: ls -ltr ${GITHUB_WORKSPACE}/checkout
       - name: Stage release
-        run: mkdir staging && cp checkout/target/AnsibleVaultFX*.jar staging
+        run: mkdir staging && cp checkout/AnsibleVaultFx/target/AnsibleVaultFX*.jar staging
       - name: Publish release
         uses: actions/upload-artifact@v1
         with:
@@ -126,7 +126,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Stage release
-        run: mkdir staging && copy checkout/target/AnsibleVaultFX*.jar staging
+        run: mkdir staging && copy checkout\AnsibleVaultFx\target\AnsibleVaultFX*.jar staging
       - name: Publish release
         uses: actions/upload-artifact@v1
         with:
