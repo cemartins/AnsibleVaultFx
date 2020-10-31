@@ -54,13 +54,13 @@ jobs:
         with:
           name: release-properties
       - name: Search for properties
-        run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print
+        run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -exec cat -n {} \;
       - name: Perform release for MacOs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: List binaries
-        run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target && find ${GITHUB_WORKSPACE}/target/checkout/target -name "release.properties" -exec cat -n {} \;
+        run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Stage release
         run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.dmg staging
       - name: Publish release
