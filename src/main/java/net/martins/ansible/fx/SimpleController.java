@@ -23,9 +23,6 @@ public class SimpleController {
     public TextField passwordTextField;
 
     @FXML
-    public Label label;
-
-    @FXML
     public Button encryptButton;
 
     @FXML
@@ -96,11 +93,12 @@ public class SimpleController {
     @FXML
     public void initialize() {
         this.alert = new Alert(Alert.AlertType.NONE);
-        final Font font = Font.font("Monospaced");
+
+        final Font font = Font.loadFont(SimpleController.class.getResource("AndaleMono.ttf").toExternalForm(),14);
+
         this.textArea.setFont(font);
         this.passwordTextField.setFont(font);
         final Font controlsFont = Font.font("SansSerif");
-        this.label.setFont(controlsFont);
         this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());
         this.encryptButton.setFont(controlsFont);
         this.decryptButton.setOnAction(actionEvent -> this.decryptTextArea());
