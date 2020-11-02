@@ -43,6 +43,8 @@ public class StageListener implements ApplicationListener<StageReadyEvent> {
             fxmlLoader.setControllerFactory(ac::getBean);
             final Parent root = fxmlLoader.load();
             final Scene scene = new Scene(root, this.width, this.height);
+            // Add the StyleSheet to the Scene
+            scene.getStylesheets().add(getClass().getResource("ansible-vault-fx.css").toExternalForm());
             window.setScene(scene);
             window.setTitle(this.applicationTitle);
             window.show();

@@ -25,7 +25,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode release:prepare -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Search for properties
-        run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print
+        run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print -exec cat -n {} \;
       - name: Upload relese properties
         uses: actions/upload-artifact@v2
         with:

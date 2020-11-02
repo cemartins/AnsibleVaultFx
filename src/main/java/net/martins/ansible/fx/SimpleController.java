@@ -93,6 +93,8 @@ public class SimpleController {
     @FXML
     public void initialize() {
         this.alert = new Alert(Alert.AlertType.NONE);
+        this.alert.getDialogPane().getStylesheets().add(getClass().getResource("ansible-vault-fx.css").toExternalForm());
+        this.alert.getDialogPane().setStyle("dialog");
 
         final Font font = Font.loadFont(SimpleController.class.getResource("AndaleMono.ttf").toExternalForm(),14);
 

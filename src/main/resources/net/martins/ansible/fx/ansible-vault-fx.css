@@ -1,0 +1,6 @@
+.dialog {
+    -fx-font-family: AndaleMono;
+}
+.text-area .content {
+    -fx-background-color: #ffffe3;
+}
