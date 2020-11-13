@@ -215,12 +215,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <classifier>linux</classifier>
-                        </configuration>
-                    </plugin>
-                    <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
                         <executions>
@@ -231,6 +225,7 @@
                                 <configuration>
                                     <mainClass>net.martins.ansible.fx.BootifulAnsibleVaultFxApplication</mainClass>
                                     <classifier>linux</classifier>
+                                    <executable>true</executable>
                                 </configuration>
                             </execution>
                         </executions>
@@ -247,12 +242,6 @@
             </activation>
             <build>
                 <plugins>
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <classifier>win</classifier>
-                        </configuration>
-                    </plugin>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
