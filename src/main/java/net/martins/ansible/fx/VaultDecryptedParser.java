@@ -33,19 +33,28 @@ public class VaultDecryptedParser {
 
         String[] linearray = textAreaContent.split(Util.LINE_BREAK);
 
-        if(hasJustOneVariable(linearray)) {
+        if(hasMultipleVariables(linearray)) {
+            variableValue = textAreaContent;
+        }
+        else {
+            // Can have zero or 1 variable
             final List<String> lines = Arrays.stream(linearray)
                     .filter(l -> StringUtils.hasText(l))
                     .map(l -> l.trim())
                     .collect(Collectors.toList());
 
             String firstLine = lines.get(0);
-            variableName = firstLine.substring(0, firstLine.indexOf(COLLON));
-            lines.set(0, firstLine.substring(firstLine.indexOf(COLLON) + 1));
-            variableValue = String.join("", lines).trim();
-        }
-        else {
-            variableValue = textAreaContent;
+            final int endOfVariableName = firstLine.indexOf(COLLON);
+            if(endOfVariableName > 0) {
+                // has 1 variable
+                variableName = firstLine.substring(0, firstLine.indexOf(COLLON));
+                lines.set(0, firstLine.substring(firstLine.indexOf(COLLON) + 1));
+                variableValue = String.join("", lines).trim();
+            }
+            else {
+                // has no variable
+                variableValue = textAreaContent;
+            }
         }
     }
 
@@ -54,16 +63,16 @@ public class VaultDecryptedParser {
      * @param linearray
      * @return
      */
-    private boolean hasJustOneVariable(final String[] linearray) {
+    private boolean hasMultipleVariables(final String[] linearray) {
         for(int count=0, i=0; i < linearray.length; i++) {
             if(linearray[i].matches(VARIABLE_PATERN)) {
                 count++;
             }
             if(count > 1) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public String getEncryptedVault(final String password) throws GeneralSecurityException {
