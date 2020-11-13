@@ -230,6 +230,7 @@
                                 </goals>
                                 <configuration>
                                     <mainClass>net.martins.ansible.fx.BootifulAnsibleVaultFxApplication</mainClass>
+                                    <classifier>linux</classifier>
                                 </configuration>
                             </execution>
                         </executions>
@@ -262,6 +263,7 @@
                                 </goals>
                                 <configuration>
                                     <mainClass>net.martins.ansible.fx.BootifulAnsibleVaultFxApplication</mainClass>
+                                    <classifier>win</classifier>
                                 </configuration>
                             </execution>
                         </executions>
