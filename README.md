@@ -5,12 +5,12 @@ Secrets encrypted by `ansible-vault` can be decrypted here and secrets encrypted
 
 ### Easy peasy
 
-Paste an encrypted vault variable into the text area   
-![decrypted](site/images/encrypted_vault.png)
+Paste an encrypted vault variable into the text area, or just drag and drop a vault file into it   
+![decrypted](site/images/encrypted_vault.png)   
 ... And press `Decrypt`   
-![encrypted](site/images/decrypted_vault.png)
+![encrypted](site/images/decrypted_vault.png)   
 Or press `Encrypt` on a clear text vault variable to encrypt it   
-![decrypted](site/images/encrypted_vault.png)
+![decrypted](site/images/encrypted_vault2.png)
 
 ### Building and running
 
