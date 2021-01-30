@@ -1,9 +1,16 @@
 package net.martins.ansible.fx;
 
+import javafx.animation.RotateTransition;
 import javafx.application.HostServices;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -33,31 +40,61 @@ public class SimpleController {
     }
 
     public void decryptTextArea() {
+
+        // Play a little animation
+        RotateTransition rotateTrans = new RotateTransition();
+        rotateTrans.setAxis(Rotate.X_AXIS);
+        rotateTrans.setByAngle(90);
+        rotateTrans.setDuration(Duration.millis(500));
+        rotateTrans.setNode(textArea);
+        rotateTrans.setCycleCount(2);
+        rotateTrans.setAutoReverse(true);
+        rotateTrans.play();
+
+        // decrypt the text
         VaultEncryptedParser vaultEncryptedParser = new VaultEncryptedParser();
         try {
             vaultEncryptedParser.parseEncryptedText(getTextAreaContent("Decrypt"));
             textArea.setText(vaultEncryptedParser.getDecryptedVault(getPassword()));
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Decrypt");
             alert.setContentText(e.getMessage());
             alert.show();
         }
+
+        // Show the decrypted text
+        rotateTrans.play();
+
     }
 
     public void encryptTextArea() {
+
+        // Play a little animation
+        RotateTransition rotateTrans = new RotateTransition();
+        rotateTrans.setAxis(Rotate.X_AXIS);
+        rotateTrans.setByAngle(90);
+        rotateTrans.setDuration(Duration.millis(500));
+        rotateTrans.setNode(textArea);
+        rotateTrans.setCycleCount(2);
+        rotateTrans.setAutoReverse(true);
+        rotateTrans.play();
+
+        // Encrypt the text
         VaultDecryptedParser vaultDecryptedParser = new VaultDecryptedParser();
         try {
             vaultDecryptedParser.parseEncryptedText(getTextAreaContent("Encrypt"));
             textArea.setText(vaultDecryptedParser.getEncryptedVault(getPassword()));
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
             alert.setAlertType(Alert.AlertType.ERROR);
             alert.setHeaderText("Encrypt");
             alert.setContentText(e.getMessage());
             alert.show();
         }
+
+        // Show the encrypted text
+        rotateTrans.play();
+
     }
 
     /**
@@ -103,7 +140,9 @@ public class SimpleController {
         final Font controlsFont = Font.font("SansSerif");
         this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());
         this.encryptButton.setFont(controlsFont);
+        this.encryptButton.disableProperty().bind(Bindings.isEmpty(passwordTextField.textProperty()));
         this.decryptButton.setOnAction(actionEvent -> this.decryptTextArea());
         this.decryptButton.setFont(controlsFont);
+        this.decryptButton.disableProperty().bind(Bindings.isEmpty(passwordTextField.textProperty()));
     }
 }

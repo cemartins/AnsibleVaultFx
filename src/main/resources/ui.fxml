@@ -4,12 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.martins.ansible.fx.SimpleController">
-   <center>
-      <TextArea fx:id="textArea" prefHeight="400.0" prefWidth="600.0" promptText="Vault content" />
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.martins.ansible.fx.SimpleController">
    <bottom>
-      <VBox AnchorPane.bottomAnchor="0.0" HBox.hgrow="ALWAYS">
+      <VBox AnchorPane.bottomAnchor="0.0" HBox.hgrow="ALWAYS" styleClass="vbox">
          <children>
             <HBox alignment="CENTER" prefHeight="40.0" prefWidth="400.0">
                <children>
@@ -40,4 +37,16 @@
       </VBox>
 
    </bottom>
+   <center>
+      <StackPane centerShape="false" BorderPane.alignment="CENTER">
+         <children>
+            <Pane styleClass="pane" />
+            <TextArea fx:id="textArea" promptText="Vault content">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </TextArea>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>

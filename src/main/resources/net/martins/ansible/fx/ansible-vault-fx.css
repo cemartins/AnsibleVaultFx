@@ -1,6 +1,25 @@
 .dialog {
-    -fx-font-family: AndaleMono;
+   -fx-font-family: AndaleMono;
+}
+.vbox {
+   -fx-background-color: gainsboro;
+}
+.text-area {
+   -fx-background-color: gainsboro;
 }
 .text-area .content {
-    -fx-background-color: #ffffe3;
+   -fx-background-color: #ffffe3;
+   -fx-border-width: 0;
+}
+.text-area:focused {
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+   -fx-background-insets: -2, -0.3, 1, 2;
+   -fx-background-color: whitesmoke;
+}
+.pane {
+   -fx-background-image: url('/secretEye.png');
+   -fx-background-repeat: stretch;
+   -fx-background-position: center center;
+   -fx-background-color: black;
 }
