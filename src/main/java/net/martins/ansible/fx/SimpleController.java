@@ -8,16 +8,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.security.GeneralSecurityException;
+import java.util.Scanner;
 
 @Component
 public class SimpleController {
+
+    private static final long MAX_FILE_SIZE = 512000;
 
     private final HostServices hostServices;
 
@@ -127,6 +136,71 @@ public class SimpleController {
         return text;
     }
 
+    private void dragFileOver(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        if (db.hasFiles()) {
+            event.acceptTransferModes(TransferMode.COPY);
+        } else {
+            event.consume();
+        }
+    }
+
+    /**
+     * Called when something is dropped on the text area
+     * @param event
+     */
+    private void dropFile(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasFiles()) {
+            success = true;
+            File file = db.getFiles().get(0);
+            try {
+                readFileIntoTextArea(file);
+            } catch (IOException e) {
+                alert.setAlertType(Alert.AlertType.ERROR);
+                alert.setHeaderText("Drop File");
+                alert.setContentText(e.getMessage());
+                alert.show();
+            }
+        }
+        event.setDropCompleted(success);
+        event.consume();
+
+    }
+
+    private void readFileIntoTextArea(File file) throws IOException {
+        if (file.length() > MAX_FILE_SIZE) {
+            throw new IOException("File is too large");
+        }
+        if(file.isDirectory()) {
+            throw new IOException("Wrong type of file");
+        }
+        if( ! isGoodFileType(file) ) {
+            throw new IOException("Wrong type of file");
+        }
+        Scanner scanner = new Scanner(file);
+        textArea.clear();
+        while(scanner.hasNext()) {
+            textArea.appendText(scanner.nextLine().concat("\n"));
+        }
+    }
+
+    private boolean isGoodFileType(File file) throws IOException {
+
+        if(file.getName().endsWith(".properties")) {
+            return true;
+        }
+        final String contentType = Files.probeContentType(file.toPath());
+        if(contentType.contains("yaml")) {
+            return true;
+        }
+        if(contentType.contains("text")) {
+            return true;
+        }
+        return false;
+    }
+
     @FXML
     public void initialize() {
         this.alert = new Alert(Alert.AlertType.NONE);
@@ -136,6 +210,8 @@ public class SimpleController {
         final Font font = Font.loadFont(SimpleController.class.getResource("AndaleMono.ttf").toExternalForm(),14);
 
         this.textArea.setFont(font);
+        this.textArea.setOnDragOver( dragEvent -> dragFileOver(dragEvent));
+        this.textArea.setOnDragDropped(dragEvent -> dropFile(dragEvent));
         this.passwordTextField.setFont(font);
         final Font controlsFont = Font.font("SansSerif");
         this.encryptButton.setOnAction(actionEvent -> this.encryptTextArea());

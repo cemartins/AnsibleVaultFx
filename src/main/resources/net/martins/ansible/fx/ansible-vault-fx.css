@@ -19,7 +19,7 @@
 }
 .pane {
    -fx-background-image: url('/secretEye.png');
-   -fx-background-repeat: stretch;
+   -fx-background-size: stretch;
    -fx-background-position: center center;
    -fx-background-color: black;
 }
