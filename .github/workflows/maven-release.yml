@@ -63,12 +63,12 @@ jobs:
         run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Stage release
         run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.dmg staging
-      - name: Publish release
-        uses: actions/upload-artifact@v1
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Package
-          path: staging
-
+          asset_paths: '["./staging/*.dmg"]'
   publish_linux:
     runs-on: ubuntu-latest
     needs: release
@@ -100,12 +100,12 @@ jobs:
         run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Stage release
         run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.jar staging
-      - name: Publish release
-        uses: actions/upload-artifact@v1
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Package
-          path: staging
-
+          asset_paths: '["./staging/AnsibleVaultFX*.jar"]'
   publish_windows:
     runs-on: windows-latest
     needs: release
@@ -127,8 +127,9 @@ jobs:
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Stage release
         run: mkdir staging && copy target\checkout\target\AnsibleVaultFX*.jar staging
-      - name: Publish release
-        uses: actions/upload-artifact@v1
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: Package
-          path: staging
+          asset_paths: '["./staging/AnsibleVaultFX*.jar"]'
