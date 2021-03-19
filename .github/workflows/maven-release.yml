@@ -163,6 +163,18 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: windows-app
+      - name: Download release properties
+        uses: actions/download-artifact@v2
+        with:
+          name: release-properties
+      - name: Extract SCM TAG
+        run: grep "scm.tag=" ${GITHUB_WORKSPACE}/release.properties | cut -d '=' -f2 | awk '{print "SCM_TAG=" $0}' >> $GITHUB_ENV
+      - name: Extract release number
+        run: echo ${{ env.SCM_TAG }} | cut -c2- | awk '{print "RELEASE_VERSION=" $0}' >> $GITHUB_ENV
+      - name: Print Release Properties
+        run: |
+          echo "SCM TAG = ${{ env.SCM_TAG }}"
+          echo "Version = ${{ env.RELEASE_VERSION }}"
       - name: List workspace and current dir
         run: ls -ltr ${GITHUB_WORKSPACE} && pwd && ls -ltr
       - name: Print release information
@@ -170,6 +182,10 @@ jobs:
       - name: Publish Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ env.SCM_TAG }}
+          draft: false
+          prerelease: false
+          name: AnsibleVaultFx-${{ env.RELEASE_VERSION }}
           files: |
             macos-app
             linux-app
