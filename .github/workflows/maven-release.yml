@@ -68,7 +68,7 @@ jobs:
         run: echo ${{ steps.releaseTag.outputs.release }}
       - name: Get release number from tag
         id: releaseVersion
-        uses: bhowell2/github-substring-action
+        uses: bhowell2/github-substring-action@v1.0.0
         with:
           value: ${{ steps.releaseTag.outputs.release }}
           index_of_str: "v"
