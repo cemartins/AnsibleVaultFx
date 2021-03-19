@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos-app
-          path: /home/runner/work/AnsibleVaultFx/AnsibleVaultFx/staging/AnsibleVaultFX_${{ env.RELEASE_VERSION }}.dmg
+          path: /Users/runner/work/AnsibleVaultFx/AnsibleVaultFx/staging/AnsibleVaultFX_${{ env.RELEASE_VERSION }}.dmg
   perform_linux:
     runs-on: ubuntu-latest
     needs: release_prepare
