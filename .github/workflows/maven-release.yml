@@ -59,8 +59,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
+      - name: Print release information
+        run: echo ${{ github.ref }}
       - name: Stage release
-        run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.dmg staging
+        run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.dmg ${GITHUB_WORKSPACE}/staging
+      - name: List staging dir
+        run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: List workspace and current dir
         run: ls -ltr ${GITHUB_WORKSPACE} && pwd && ls -ltr
       - name: Upload MacOs bundle
@@ -98,7 +102,9 @@ jobs:
       - name: List binaries
         run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Stage release
-        run: mkdir staging && cp target/checkout/target/*linux.jar staging
+        run: mkdir staging && cp target/checkout/target/*linux.jar ${GITHUB_WORKSPACE}/staging
+      - name: List staging dir
+        run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Upload Linux bundle
         uses: actions/upload-artifact@v2
         with:
