@@ -53,6 +53,8 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
+      - name: List workspace dir
+        run: ls -l ${GITHUB_WORKSPACE}
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -exec cat -n {} \;
       - name: Perform release for MacOs
@@ -60,7 +62,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Extract SCM TAG
-        run: cat release.properties | grep "scm.tag" >> $GITHUB_ENV
+        run: grep "scm.tag" ${GITHUB_WORKSPACE}/release.properties >> $GITHUB_ENV
       - name: Print SCM TAG
         run: echo ${{ env.scm.tag }}
       - name: Get release number from tag
