@@ -11,7 +11,7 @@
 
     <groupId>net.martins.ansible</groupId>
     <artifactId>ansible-vault-fx</artifactId>
-    <version>2.0.49-SNAPSHOT</version>
+    <version>2.0.49</version>
 
     <name>AnsibleVaultFX</name>
     <description>JavaFX Ansible Vault Application</description>
@@ -24,7 +24,7 @@
 
     <scm>
         <developerConnection>scm:git:https://github.com/cemartins/AnsibleVaultFx.git</developerConnection>
-      <tag>HEAD</tag>
+      <tag>v2.0.49</tag>
   </scm>
 
     <distributionManagement>
