@@ -64,7 +64,7 @@ jobs:
         uses: InsonusK/get-latest-release@v1.0.1
         with:
           myToken: ${{ secrets.GITHUB_TOKEN }}
-          view_top: 1
+          view_top: 10
       - name: Print release information
         run: |
           echo "id: ${{ steps.releaseInfo.outputs.id }}"
