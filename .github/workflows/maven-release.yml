@@ -73,8 +73,6 @@ jobs:
         run: mkdir staging && cp target/checkout/target/AnsibleVaultFX*.dmg ${GITHUB_WORKSPACE}/staging
       - name: List staging dir
         run: ls -ltr ${GITHUB_WORKSPACE}/staging
-      - name: List workspace and current dir
-        run: ls -ltr ${GITHUB_WORKSPACE} && pwd && ls -ltr
       - name: Upload MacOs bundle
         uses: actions/upload-artifact@v2
         with:
@@ -101,14 +99,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: release-properties
-      - name: Search for properties
-        run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print
       - name : Perform release for Linux
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: List binaries
-        run: ls -ltr ${GITHUB_WORKSPACE}/target/checkout/target
       - name: Stage release
         run: mkdir staging && cp target/checkout/target/*linux.jar ${GITHUB_WORKSPACE}/staging
       - name: List staging dir
@@ -179,6 +173,8 @@ jobs:
         run: ls -ltr ${GITHUB_WORKSPACE} && pwd && ls -ltr
       - name: Print release information
         run: echo ${{ github.ref }}
+      - name: List workspace and current dir
+        run: ls -ltr ${GITHUB_WORKSPACE} && pwd && ls -ltr
       - name: Publish Release
         uses: softprops/action-gh-release@v1
         with:
@@ -187,8 +183,8 @@ jobs:
           prerelease: false
           name: AnsibleVaultFx-${{ env.RELEASE_VERSION }}
           files: |
-            macos-app
-            linux-app
-            windows-app
+            AnsibleVaultFX_${{ env.RELEASE_VERSION }}.dmg
+            ansible-vault-fx-${{ env.RELEASE_VERSION }}-linux.jar
+            ansible-vault-fx-${{ env.RELEASE_VERSION }}-win.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
