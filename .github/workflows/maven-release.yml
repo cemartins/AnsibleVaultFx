@@ -62,6 +62,8 @@ jobs:
       - name: Get latest release tag
         id: releaseInfo
         uses: jossef/action-latest-release-info@v1.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Print tag information
         run: echo ${{ steps.releaseInfo.outputs.tag_name }} && echo ${{ steps.releaseInfo.outputs.id }}
       - name: Get release number from tag
