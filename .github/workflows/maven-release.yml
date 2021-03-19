@@ -24,6 +24,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode release:prepare -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
+      - name: Get latest release info
+        id: releaseInfo
+        uses: InsonusK/get-latest-release@v1.0.1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          view_top: 10
+      - name: Print release information
+        run: |
+          echo "id: ${{ steps.releaseInfo.outputs.id }}"
+          echo "name: ${{ steps.releaseInfo.outputs.name }}"
+          echo "tag_name: ${{ steps.releaseInfo.outputs.tag_name }}"
+          echo "created_at: ${{ steps.releaseInfo.outputs.created_atd }}"
+          echo "draft: ${{ steps.releaseInfo.outputs.draft }}"
+          echo "prerelease: ${{ steps.releaseInfo.outputs.prerelease }}"
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print -exec cat -n {} \;
       - name: Upload relese properties
