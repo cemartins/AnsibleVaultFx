@@ -59,13 +59,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: Get latest release tag
+      - name: Get latest release info
         id: releaseInfo
-        uses: jossef/action-latest-release-info@v1.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Print tag information
-        run: echo ${{ steps.releaseInfo.outputs.tag_name }} && echo ${{ steps.releaseInfo.outputs.id }}
+        uses: InsonusK/get-latest-release@v1.0.1
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          view_top: 1
+      - name: Print release information
+        run: |
+          echo "id: ${{ steps.releaseInfo.outputs.id }}"
+          echo "name: ${{ steps.releaseInfo.outputs.name }}"
+          echo "tag_name: ${{ steps.releaseInfo.outputs.tag_name }}"
+          echo "created_at: ${{ steps.releaseInfo.outputs.created_atd }}"
+          echo "draft: ${{ steps.releaseInfo.outputs.draft }}"
+          echo "prerelease: ${{ steps.releaseInfo.outputs.prerelease }}"
       - name: Get release number from tag
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
