@@ -65,8 +65,8 @@ jobs:
         with:
           path: "release.properties"
           property: "scm.tag"
-      - name Print SCM TAG
-        run echo ${{ steps.releaseInfo.outputs.value }}
+      - name: Print SCM TAG
+        run: echo ${{ steps.releaseInfo.outputs.value }}
       - name: Get release number from tag
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
