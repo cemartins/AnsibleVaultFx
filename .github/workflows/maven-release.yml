@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: macos-app
-          path: ${GITHUB_WORKSPACE}/staging/AnsibleVaultFX_${{ env.RELEASE_VERSION }}.dmg
+          path: /home/runner/work/AnsibleVaultFx/AnsibleVaultFx/staging/AnsibleVaultFX_${{ env.RELEASE_VERSION }}.dmg
   perform_linux:
     runs-on: ubuntu-latest
     needs: release_prepare
@@ -117,7 +117,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: linux-app
-          path: ${GITHUB_WORKSPACE}/staging/*linux.jar
+          path: /home/runner/work/AnsibleVaultFx/AnsibleVaultFx/staging/*linux.jar
   perform_windows:
     runs-on: windows-latest
     needs: release_prepare
