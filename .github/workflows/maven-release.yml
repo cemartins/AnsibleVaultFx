@@ -60,7 +60,7 @@ jobs:
       - name: Extract SCM TAG
         run: grep "scm.tag" ${GITHUB_WORKSPACE}/release.properties >> $GITHUB_ENV
       - name: Extract release number
-        run: echo ${{ env.scm.tag }} | cut -c2- | | awk '{print "releaseVersion=" $0}' >> $GITHUB_ENV
+        run: echo ${{ env.scm.tag }} | cut -c2- | awk '{print "releaseVersion=" $0}' >> $GITHUB_ENV
       - name: Print Release Properties
         run: |
           echo "SCM TAG = ${{ env.scm.tag }}"
