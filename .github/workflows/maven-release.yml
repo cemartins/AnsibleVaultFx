@@ -59,19 +59,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: Read tag from release.properties file
-        id: releaseInfo
-        uses: christian-draeger/read-properties@1.0.1
-        with:
-          path: "release.properties"
-          property: "scm.tag"
+      - name: Extract SCM TAG
+        run: cat release.properties | grep "scm.tag" >> $GITHUB_ENV
       - name: Print SCM TAG
-        run: echo ${{ steps.releaseInfo.outputs.value }}
+        run: echo ${{ env.scm.tag }}
       - name: Get release number from tag
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
         with:
-          value: ${{ steps.releaseInfo.outputs.value }}
+          value: ${{ env.scm.tag }}
           index_of_str: "v"
       - name: Print release number
         run: echo ${{ steps.releaseVersion.outputs.substring }}
