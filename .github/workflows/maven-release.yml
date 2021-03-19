@@ -68,7 +68,7 @@ jobs:
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
         with:
-          value: ${{ releaseInfo.outputs.tag_name }}
+          value: ${{ steps.releaseInfo.outputs.tag_name }}
           index_of_str: "v"
       - name: Print release number
         run: echo ${{ steps.releaseVersion.outputs.substring }}
