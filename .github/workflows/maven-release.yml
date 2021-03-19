@@ -24,20 +24,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode release:prepare -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: Get latest release info
-        id: releaseInfo
-        uses: InsonusK/get-latest-release@v1.0.1
-        with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-          view_top: 10
-      - name: Print release information
-        run: |
-          echo "id: ${{ steps.releaseInfo.outputs.id }}"
-          echo "name: ${{ steps.releaseInfo.outputs.name }}"
-          echo "tag_name: ${{ steps.releaseInfo.outputs.tag_name }}"
-          echo "created_at: ${{ steps.releaseInfo.outputs.created_atd }}"
-          echo "draft: ${{ steps.releaseInfo.outputs.draft }}"
-          echo "prerelease: ${{ steps.releaseInfo.outputs.prerelease }}"
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -print -exec cat -n {} \;
       - name: Upload relese properties
@@ -73,25 +59,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
-      - name: Get latest release info
+      - name: Read tag from release.properties file
         id: releaseInfo
-        uses: InsonusK/get-latest-release@v1.0.1
+        uses: christian-draeger/read-properties@1.0.1
         with:
-          myToken: ${{ secrets.GITHUB_TOKEN }}
-          view_top: 10
-      - name: Print release information
-        run: |
-          echo "id: ${{ steps.releaseInfo.outputs.id }}"
-          echo "name: ${{ steps.releaseInfo.outputs.name }}"
-          echo "tag_name: ${{ steps.releaseInfo.outputs.tag_name }}"
-          echo "created_at: ${{ steps.releaseInfo.outputs.created_atd }}"
-          echo "draft: ${{ steps.releaseInfo.outputs.draft }}"
-          echo "prerelease: ${{ steps.releaseInfo.outputs.prerelease }}"
+          path: "release.properties"
+          property: "scm.tag"
+      - name Print SCM TAG
+        run echo ${{ steps.releaseInfo.outputs.value }}
       - name: Get release number from tag
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
         with:
-          value: ${{ steps.releaseInfo.outputs.tag_name }}
+          value: ${{ steps.releaseInfo.outputs.value }}
           index_of_str: "v"
       - name: Print release number
         run: echo ${{ steps.releaseVersion.outputs.substring }}
