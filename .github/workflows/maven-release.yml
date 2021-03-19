@@ -57,14 +57,14 @@ jobs:
         run: ls -l ${GITHUB_WORKSPACE}
       - name: Search for properties
         run: echo "${GITHUB_WORKSPACE}" && find ${GITHUB_WORKSPACE} -name "release.properties" -exec cat -n {} \;
-      - name: Perform release for MacOs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Extract SCM TAG
         run: grep "scm.tag" ${GITHUB_WORKSPACE}/release.properties >> $GITHUB_ENV
       - name: Print SCM TAG
         run: echo ${{ env.scm.tag }}
+      - name: Perform release for MacOs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: mvn --batch-mode -Darguments="-Dmaven.javadoc.skip=true" release:perform -Dusername=$GITHUB_ACTOR -Dpassword=$GITHUB_TOKEN
       - name: Get release number from tag
         id: releaseVersion
         uses: bhowell2/github-substring-action@v1.0.0
