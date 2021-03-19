@@ -131,6 +131,7 @@ jobs:
           name: windows-app
           path: ${GITHUB_WORKSPACE}/staging/*win.jar
   release_publish:
+    runs-on: ubuntu-latest
     needs:
       - perform_macos
       - perform_linux
